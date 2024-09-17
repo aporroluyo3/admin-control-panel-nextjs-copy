@@ -12,9 +12,10 @@
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
     "plugin:@next/next/recommended",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "plugin:@tanstack/eslint-plugin-query/recommended"
   ],
-  "plugins": ["prettier"],
+  "plugins": ["prettier", "@tanstack/query"],
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
@@ -32,6 +33,7 @@
     "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
     "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/naming-convention": "off",
-    "@typescript-eslint/explicit-function-return-type": "off"
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@tanstack/query/exhaustive-deps": "error"
   }
 }
