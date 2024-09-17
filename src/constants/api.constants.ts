@@ -1,31 +1,25 @@
+import { path } from '@/utils/route.utils';
+
 /* eslint-disable no-unused-vars */
 enum ApiModule {
   USER = 'user',
-  PRODUCT = 'product',
+  PRODUCT = 'api/v1', // TODO: Change services name
 }
 
-const ApiServices: Record<ApiModule, Record<string, string>> = {
-  [ApiModule.USER]: {
-    LOGIN: 'login',
-  },
-  [ApiModule.PRODUCT]: {
-    ALL: '',
-    GET: '',
-    SEARCH_BY_SKU: 'search-by-sku',
-    GET_RELATED: '',
-    ADD_RELATION: 'addProductRelation',
-  },
+const USER_SERVICES = {
+  login: path(ApiModule.USER, '/login'),
 };
 
-enum HttpMethod {
-  GET = 'GET',
-  POST = 'POST',
-  PUT = 'PUT',
-  DELETE = 'DELETE',
-}
+const PRODUCT_SERVICES = {
+  all: path(ApiModule.PRODUCT, '/'),
+  find: path(ApiModule.PRODUCT, '/'),
+  getBySku: path(ApiModule.PRODUCT, '/search-by-sku'),
+  getRelated: path(ApiModule.PRODUCT, ''),
+  addRelation: path(ApiModule.PRODUCT, '/addProductRelation'),
+};
 
 const requestHeaders = {
   'Content-Type': 'application/json',
 };
 
-export { ApiModule, ApiServices, HttpMethod, requestHeaders };
+export { ApiModule, USER_SERVICES, PRODUCT_SERVICES, requestHeaders };

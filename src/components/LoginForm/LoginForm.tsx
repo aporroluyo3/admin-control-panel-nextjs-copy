@@ -1,3 +1,4 @@
+'use client';
 import { Button, Form, Input, Spin, Typography, theme } from 'antd';
 import { LoadingOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
 import { AuthRequest } from '@/types/auth.types';

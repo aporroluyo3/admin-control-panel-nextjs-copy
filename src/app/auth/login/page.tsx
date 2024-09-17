@@ -1,6 +1,6 @@
 'use client';
-import React, { useState } from 'react';
-import { Grid, notification, theme, Typography } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Grid, notification, theme, Typography, message } from 'antd';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
@@ -30,9 +30,9 @@ export default function Login() {
       redirect: false,
     });
 
-    setLoading(false);
-
     if (response?.error) {
+      setLoading(false);
+
       if (response.status === 401) {
         openNotification('Error', 'Credenciales incorrectas.');
         return;
@@ -43,7 +43,12 @@ export default function Login() {
       return;
     }
 
-    if (response?.ok) router.push('/');
+    if (response?.ok) {
+      setTimeout(() => {
+        setLoading(false);
+        router.push('/');
+      }, 1000);
+    }
   };
 
   const openNotification = (message: string, description: string) => {
@@ -80,6 +85,17 @@ export default function Login() {
       fontSize: screens.md ? token.fontSizeHeading2 : token.fontSizeHeading3,
     },
   };
+
+  useEffect(() => {
+    if (loading) {
+      message.open({
+        type: 'loading',
+        content: 'signing...',
+      });
+      return;
+    }
+    message.destroy();
+  }, [loading]);
 
   return (
     <>
