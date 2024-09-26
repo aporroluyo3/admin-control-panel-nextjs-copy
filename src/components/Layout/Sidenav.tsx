@@ -52,8 +52,15 @@ const items: MenuProps['items'] = [
 
   getItem('Cross Sell', 'cross-sell', <ShoppingCartOutlined />, [
     getItem(
-      <Link href={CROSS_SELL_ROUTES.root}>List</Link>,
-      'cross-sell-list',
+      <Link href={CROSS_SELL_ROUTES.products}>Product list</Link>,
+      'cross-sell-product-list',
+      null,
+    ),
+    getItem(
+      <Link href={CROSS_SELL_ROUTES.relatedProducts}>
+        Active related products
+      </Link>,
+      'cross-sell-active-related-products',
       null,
     ),
   ]),
@@ -127,12 +134,12 @@ export default function SideNav({ ...others }: SideNavProps) {
 
   return (
     <Sider ref={nodeRef} breakpoint='lg' collapsedWidth='0' {...others}>
-      <picture>
+      <picture style={{ padding: '10px', display: 'grid' }}>
         <img
-          src='https://cdn.shopify.com/s/files/1/3009/5686/files/logoweldinghelmetsonline.png?v=1705342552'
+          src='https://cdn.shopify.com/s/files/1/3009/5686/files/logo_preloader.png?v=1724882594'
           alt='W.H.O Logo'
-          className='px-3 py-4'
-          width={200}
+          style={{ padding: '4px' }}
+          width={50}
         />
       </picture>
       <ConfigProvider

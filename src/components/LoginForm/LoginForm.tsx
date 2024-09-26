@@ -2,6 +2,7 @@
 import { Button, Form, Input, Spin, Typography, theme } from 'antd';
 import { LoadingOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
 import { AuthRequest } from '@/types/auth.types';
+import { Styles } from '@/types/styles.types';
 
 const { useToken } = theme;
 const { Text } = Typography;
@@ -24,6 +25,25 @@ export default function LoginForm({
     onLogin(data);
   };
 
+  const styles: Styles = {
+    form: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '20px',
+    },
+    text: {
+      color: token.colorWhite,
+      fontSize: token.fontSizeHeading5,
+    },
+    input: {
+      fontSize: token.fontSizeHeading5,
+      padding: '4px 10px',
+      display: 'flex',
+      alignItems: 'center',
+      gap: '6px',
+    },
+  };
+
   return (
     <Form
       name='normal_login'
@@ -33,9 +53,8 @@ export default function LoginForm({
       onFinish={onFinish}
       layout='vertical'
       requiredMark='optional'
-      className='flex flex-col gap-4'
+      style={styles.form}
     >
-      {/* <Alert message='Success Text' type='error' showIcon /> */}
       <Form.Item
         name='email'
         rules={[
@@ -46,7 +65,11 @@ export default function LoginForm({
           },
         ]}
       >
-        <Input prefix={<MailOutlined />} placeholder='Email' />
+        <Input
+          prefix={<MailOutlined />}
+          placeholder='Email'
+          style={styles.input}
+        />
       </Form.Item>
       <Form.Item
         name='password'
@@ -61,14 +84,18 @@ export default function LoginForm({
           prefix={<LockOutlined />}
           type='password'
           placeholder='Password'
+          style={styles.input}
         />
       </Form.Item>
       <Form.Item style={{ marginBottom: '0px' }}>
         <Button block={true} type='primary' htmlType='submit'>
           {!isLoading ? (
-            <Text style={{ color: token.colorWhite }}>Sing in</Text>
+            <Text style={styles.text}>Sing in</Text>
           ) : (
-            <Spin indicator={<LoadingOutlined spin />} size='large' />
+            <Spin
+              indicator={<LoadingOutlined style={{ color: 'white' }} spin />}
+              size='default'
+            />
           )}
         </Button>
       </Form.Item>

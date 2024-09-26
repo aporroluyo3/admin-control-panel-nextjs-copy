@@ -1,11 +1,6 @@
 type GlobalResponse = {
-  code: string;
+  status: string;
   message: string;
 };
 
-type GlobalErrorReponse = {
-  statusCode: number;
-  message: string;
-};
-
-export type { GlobalResponse, GlobalErrorReponse };
+export type { GlobalResponse };

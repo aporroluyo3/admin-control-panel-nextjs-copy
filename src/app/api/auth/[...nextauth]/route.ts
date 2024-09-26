@@ -3,11 +3,12 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import { jwtDecode } from 'jwt-decode';
 import { getAuthCredentials } from '@/services/auth.services';
 import { JwtCompletePayload } from '@/types/auth.types';
-import { Route } from '@/constants/route.constants';
+import { AUTH_ROUTES } from '@/constants/route.constants';
+import { isTokenExpired } from '@/utils/auth.utils';
 
 export const authOptions: NextAuthOptions = {
   pages: {
-    signIn: Route.LOGIN,
+    signIn: AUTH_ROUTES.login,
   },
   providers: [
     CredentialsProvider({
@@ -41,12 +42,24 @@ export const authOptions: NextAuthOptions = {
             role: decoded.role,
           };
         } catch (error) {
-          throw new Error('Unauthorized');
+          if (error.response?.status === 400) {
+            return { error: 401 };
+          }
+          return { error: 500 };
         }
       },
     }),
   ],
   callbacks: {
+    async signIn({ user }) {
+      if (user?.error === 500) {
+        throw new Error('Internal Server Error');
+      }
+      if (user?.error === 401) {
+        throw new Error('Unauthorized');
+      }
+      return true;
+    },
     async jwt({ token, user }) {
       return { ...token, ...user };
     },

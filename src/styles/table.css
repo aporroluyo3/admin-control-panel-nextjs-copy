@@ -1,0 +1,29 @@
+.ant-table-wrapper {
+  overflow: auto;
+}
+
+.relateds-by-product-table {
+  .ant-table-cell {
+    background: none !important;
+    border-bottom: 1px solid #b0d2ff !important;
+  }
+  tbody tr:last-child .ant-table-cell {
+    border-bottom: none !important;
+  }
+  .ant-table-cell-row-hover {
+    background: #e0f1ff !important;
+  }
+
+  .ant-table-content .ant-table-expanded-row {
+    background: rgba(0, 0, 0, 0.02) !important;
+  }
+}
+
+.relateds-by-product-child-table {
+  .ant-spin-nested-loading {
+    padding: 1rem;
+  }
+  .ant-table-container {
+    background: rgba(0, 0, 0, 0.02) !important;
+  }
+}

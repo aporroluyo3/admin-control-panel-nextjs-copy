@@ -12,9 +12,15 @@ const AUTH_ROUTES = {
 };
 
 const CROSS_SELL_ROUTES = {
-  root: Route.CROSS_SELL,
-  find: path(Route.CROSS_SELL, '/find'),
+  products: path(Route.CROSS_SELL, '/products'),
+  product: (handle: string) => path(Route.CROSS_SELL, `/product/${handle}`),
+  relatedProducts: path(Route.CROSS_SELL, '/related-products'),
 };
+
+const CROSS_SELL_ITEMS = [
+  { title: 'Product list', path: CROSS_SELL_ROUTES.products },
+  { title: 'Active related products', path: CROSS_SELL_ROUTES.relatedProducts },
+];
 
 // const ROOTS_LANDING = '/';
 // const ROOTS_DASHBOARD = '/dashboards';
@@ -286,6 +292,7 @@ export {
   Route,
   AUTH_ROUTES,
   CROSS_SELL_ROUTES,
+  CROSS_SELL_ITEMS,
   // PATH_CALENDAR,
   // PATH_USER_MGMT,
   // PATH_INBOX,

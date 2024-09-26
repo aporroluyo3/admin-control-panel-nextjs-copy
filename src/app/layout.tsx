@@ -1,7 +1,9 @@
+import { ReactNode } from 'react';
 import type { Metadata } from 'next';
 import { getServerSession } from 'next-auth';
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 import '../styles/globals.css';
+import '../styles/table.css';
 
 import { QueryProvider, SessionProvider } from '@/providers';
 
@@ -10,11 +12,13 @@ export const metadata: Metadata = {
   description: 'W.H.O Cross Sell Manager admin',
 };
 
+interface RootLayoutProps {
+  children: ReactNode;
+}
+
 export default async function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<RootLayoutProps>) {
   const session = await getServerSession();
 
   return (

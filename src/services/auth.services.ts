@@ -6,7 +6,9 @@ const getAuthCredentials = async ({
   email,
   password,
 }: AuthRequest): Promise<AuthCredentials> => {
-  const response = await axios.post(USER_SERVICES.login, { email, password });
+  const requestData = { email, password };
+
+  const response = await axios.post(USER_SERVICES.login, requestData);
 
   return response.data;
 };

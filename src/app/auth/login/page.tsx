@@ -4,7 +4,9 @@ import { Grid, notification, theme, Typography, message } from 'antd';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
+import { Route } from '@/constants/route.constants';
 import { AuthRequest } from '@/types/auth.types';
+import { Styles } from '@/types/styles.types';
 import { LoginForm } from '@/components';
 
 const { useToken } = theme;
@@ -12,7 +14,9 @@ const { useBreakpoint } = Grid;
 const { Text, Title } = Typography;
 
 export default function Login() {
-  const [api, contextHolder] = notification.useNotification();
+  const [notificationApi, notificationContextHolder] =
+    notification.useNotification();
+  const [messageApi, messageContextHolder] = message.useMessage();
   const router = useRouter();
 
   const { token } = useToken();
@@ -33,33 +37,34 @@ export default function Login() {
     if (response?.error) {
       setLoading(false);
 
-      if (response.status === 401) {
-        openNotification('Error', 'Credenciales incorrectas.');
+      if (response.error === 'Unauthorized') {
+        openErrorNotification('Error', 'Credenciales incorrectas.');
         return;
       }
 
       console.error(response);
-      openNotification('Oops!', 'Ocurrió un error interno.');
+      openErrorNotification('Oops!', 'Ocurrió un error interno.');
       return;
     }
 
     if (response?.ok) {
       setTimeout(() => {
         setLoading(false);
-        router.push('/');
+        router.push(Route.HOME);
       }, 1000);
     }
   };
 
-  const openNotification = (message: string, description: string) => {
-    api.error({
+  const openErrorNotification = (message: string, description: string) => {
+    notificationApi.error({
+      key: 'loginError',
       message,
       description,
       placement: 'topRight',
     });
   };
 
-  const styles = {
+  const styles: Styles = {
     container: {
       margin: '0 auto',
       padding: screens.md
@@ -69,6 +74,7 @@ export default function Login() {
     },
     header: {
       marginBottom: token.marginXL,
+      textAlign: 'center',
     },
     section: {
       alignItems: 'center',
@@ -88,24 +94,22 @@ export default function Login() {
 
   useEffect(() => {
     if (loading) {
-      message.open({
-        type: 'loading',
-        content: 'signing...',
-      });
+      messageApi.loading('signin...');
       return;
     }
-    message.destroy();
+    messageApi.destroy();
   }, [loading]);
 
   return (
     <>
-      {contextHolder}
+      {notificationContextHolder}
+      {messageContextHolder}
 
       <section style={styles.section}>
         <div style={styles.container}>
-          <div style={styles.header} className='text-center'>
+          <div style={styles.header}>
             <Title style={styles.title}>Sign in</Title>
-            <Text style={styles.text}>Cross Sell Manager</Text>
+            <Text style={styles.text}>W.H.O Manager</Text>
           </div>
           <LoginForm onLogin={handleLogin} isLoading={loading} />
         </div>

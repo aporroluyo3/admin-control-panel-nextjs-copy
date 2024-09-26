@@ -6,7 +6,6 @@ import { getSession } from 'next-auth/react';
 
 const axiosInstance = axios.create({
   baseURL: getApiUrl(),
-  timeout: 2000,
   headers: requestHeaders,
 });
 
