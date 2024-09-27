@@ -17,7 +17,7 @@ import {
   theme,
   Typography,
 } from 'antd';
-import { ProductWithRelated } from '@/types/product';
+import { ProductWithRelated } from '@/features/cross-sell/types/product';
 import {
   CROSS_SELL_ITEMS,
   CROSS_SELL_ROUTES,
@@ -26,11 +26,16 @@ import {
 import {
   getProduct,
   getRelatedProductsBySku,
-} from '@/services/product.services';
-import { AppLayout, PageHeader, Retry } from '@/components';
-import { ProductDetails, RelatedProducts } from '@/components/Product';
+} from '@/features/cross-sell/services/product.services';
+import {
+  ProductDetails,
+  RelatedProducts,
+} from '@/features/cross-sell/components/Product';
 import { HomeOutlined, ShoppingCartOutlined } from '@ant-design/icons';
-import { ProductPageSkeleton } from '@/components/Skeletons';
+import { AppLayout } from '@/components/AppLayout';
+import { PageHeader } from '@/components/PageHeader';
+import { RetryContainer } from '@/components/RetryContainer';
+import { ProductPageSkeleton } from '@/features/cross-sell/components/Skeletons';
 
 const { Text } = Typography;
 const { useBreakpoint } = Grid;
@@ -130,7 +135,7 @@ export default function ProductDetailsPage({ params }: SingleProductPageProps) {
       <>
         {productDetailsMutation.isError ||
         productWithRelatedMutation.isError ? (
-          <Retry
+          <RetryContainer
             onRetry={() => {
               productDetailsMutation.mutate({
                 type: 'handle',

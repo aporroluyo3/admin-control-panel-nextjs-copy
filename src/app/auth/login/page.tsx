@@ -5,9 +5,9 @@ import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
 import { Route } from '@/constants/route.constants';
-import { AuthRequest } from '@/types/auth.types';
+import { AuthRequest } from '@/features/auth/types/auth.types';
 import { Styles } from '@/types/styles.types';
-import { LoginForm } from '@/components';
+import { LoginForm } from '@/features/auth/components/LoginForm';
 
 const { useToken } = theme;
 const { useBreakpoint } = Grid;

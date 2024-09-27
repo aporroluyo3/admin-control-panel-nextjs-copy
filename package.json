@@ -1,11 +1,11 @@
 {
-  "name": "cross-sell-manager-frontend-nextjs",
+  "name": "admin-control-panel-frontend-nextjs",
   "version": "0.1.0",
-  "description": "Frontend manager for cross sell W.H.O API",
+  "description": "W.H.O Administrative control panel | Frontend",
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Welding-Helmets-Online/cross-up-sell"
+    "url": "https://github.com/Welding-Helmets-Online/admin-control-panel-frontend-nextjs"
   },
   "keywords": [
     "nextjs",
@@ -56,10 +56,7 @@
     "eslint-plugin-jsx-a11y": "^6.10.0",
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-react": "^7.35.2",
-    "postcss": "^8",
     "prettier": "^3.3.3",
-    "prettier-plugin-tailwindcss": "^0.6.6",
-    "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }
 }

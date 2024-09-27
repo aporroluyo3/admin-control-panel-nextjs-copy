@@ -1,6 +1,10 @@
 import { path } from '@/utils/route.utils';
 
 /* eslint-disable no-unused-vars */
+enum ApiName {
+  CROSS_SELL = 'CROSS_SELL',
+}
+
 enum ApiModule {
   USER = 'auth',
   PRODUCT = 'api/v1', // TODO: Change services name
@@ -26,4 +30,4 @@ const requestHeaders = {
   'Content-Type': 'application/json',
 };
 
-export { ApiModule, USER_SERVICES, PRODUCT_SERVICES, requestHeaders };
+export { ApiName, ApiModule, USER_SERVICES, PRODUCT_SERVICES, requestHeaders };

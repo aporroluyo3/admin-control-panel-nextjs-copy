@@ -19,17 +19,21 @@ import {
   CROSS_SELL_ROUTES,
   Route,
 } from '@/constants/route.constants';
-import { ProductWithRelated, RelatedProduct } from '@/types/product';
-import { useProductContext } from '@/context/product.context';
+import { BaseType } from 'antd/es/typography/Base';
+import {
+  ProductWithRelated,
+  RelatedProduct,
+} from '@/features/cross-sell/types/product';
+import { useProductContext } from '@/features/cross-sell/context/product.context';
 import {
   CheckCircleOutlined,
   ExclamationCircleOutlined,
   HomeOutlined,
   ShoppingCartOutlined,
 } from '@ant-design/icons';
-import { AppLayout, PageHeader } from '@/components';
-import { ProductsPageSkeleton } from '@/components/Skeletons';
-import { BaseType } from 'antd/es/typography/Base';
+import { AppLayout } from '@/components/AppLayout';
+import { PageHeader } from '@/components/PageHeader';
+import { ProductsPageSkeleton } from '@/features/cross-sell/components/Skeletons';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -75,7 +79,7 @@ const PRODUCTS_TABLE_COLUMNS: TableProps<ProductWithRelated>['columns'] = [
       }
 
       return (
-        <Tag className='text-capitalize' color={color} icon={icon}>
+        <Tag color={color} icon={icon}>
           {_}
         </Tag>
       );
@@ -99,7 +103,7 @@ const PRODUCTS_TABLE_COLUMNS: TableProps<ProductWithRelated>['columns'] = [
       <Space size='middle'>
         <a
           href={CROSS_SELL_ROUTES.product(record.handle)}
-          className='font-semibold'
+          style={{ fontWeight: '600' }}
         >
           Details
         </a>
@@ -150,7 +154,7 @@ const RELATED_PRODUCTS_TABLE_COLUMNS: TableProps<ProductWithRelated>['columns'] 
         }
 
         return (
-          <Tag className='text-capitalize' color={color} icon={icon}>
+          <Tag color={color} icon={icon}>
             {_}
           </Tag>
         );
@@ -185,7 +189,7 @@ const RELATED_PRODUCTS_TABLE_COLUMNS: TableProps<ProductWithRelated>['columns'] 
         <Space size='middle'>
           <a
             href={CROSS_SELL_ROUTES.product(record.handle)}
-            className='font-semibold'
+            style={{ fontWeight: '600' }}
           >
             Details
           </a>
@@ -241,7 +245,7 @@ const RELATED_PRODUCTS_CHILD_TABLE_COLUMNS: TableProps<RelatedProduct>['columns'
         }
 
         return (
-          <Tag className='text-capitalize' color={color} icon={icon}>
+          <Tag color={color} icon={icon}>
             {_}
           </Tag>
         );
@@ -249,7 +253,7 @@ const RELATED_PRODUCTS_CHILD_TABLE_COLUMNS: TableProps<RelatedProduct>['columns'
     },
   ];
 
-export const ExpandedRowRender = ({ data }: { data: RelatedProduct[] }) => {
+const ExpandedRowRender = ({ data }: { data: RelatedProduct[] }) => {
   return (
     <Table
       columns={RELATED_PRODUCTS_CHILD_TABLE_COLUMNS}
@@ -301,17 +305,26 @@ export default function ProductListPage() {
   const applyFilters = (searchTerm: string) => {
     if (!products) return;
 
-    const filtered = products.filter((p) =>
-      p.sku.toLowerCase().includes(searchTerm.toLowerCase()),
+    if (!searchTerm || searchTerm === '') {
+      setFilteredProducts(products);
+      return;
+    }
+
+    const lowerCaseTerm = searchTerm.toLowerCase();
+
+    const filteredProducts = products.filter(
+      (p) =>
+        p.sku.toLowerCase().includes(lowerCaseTerm) ||
+        p.title.toLowerCase().includes(lowerCaseTerm),
     );
 
-    setFilteredProducts(filtered);
+    setFilteredProducts(filteredProducts);
   };
 
   return (
     <AppLayout>
       <PageHeader
-        title='Product list'
+        title='Products'
         breadcrumbs={[
           {
             title: (
@@ -337,7 +350,7 @@ export default function ProductListPage() {
             },
           },
           {
-            title: 'Product list',
+            title: 'Products',
           },
         ]}
       />
@@ -360,7 +373,7 @@ export default function ProductListPage() {
               onChange={(e) => {
                 applyFilters(e.target.value);
               }}
-              placeholder='Search product by SKU'
+              placeholder='Search product by SKU or title'
               style={{ padding: '20px 0px' }}
             />
 

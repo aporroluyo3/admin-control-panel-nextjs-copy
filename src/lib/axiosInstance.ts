@@ -1,11 +1,11 @@
-import { requestHeaders } from '@/constants/api.constants';
-import { CompleteSession } from '@/types/auth.types';
+import { ApiName, requestHeaders } from '@/constants/api.constants';
+import { CompleteSession } from '@/features/auth/types/auth.types';
 import { getApiUrl } from '@/utils/api.utils';
 import axios, { AxiosRequestConfig } from 'axios';
 import { getSession } from 'next-auth/react';
 
 const axiosInstance = axios.create({
-  baseURL: getApiUrl(),
+  baseURL: getApiUrl(ApiName.CROSS_SELL),
   headers: requestHeaders,
 });
 

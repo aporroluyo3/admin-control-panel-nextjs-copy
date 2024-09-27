@@ -14,12 +14,14 @@ const AUTH_ROUTES = {
 const CROSS_SELL_ROUTES = {
   products: path(Route.CROSS_SELL, '/products'),
   product: (handle: string) => path(Route.CROSS_SELL, `/product/${handle}`),
-  relatedProducts: path(Route.CROSS_SELL, '/related-products'),
 };
 
 const CROSS_SELL_ITEMS = [
-  { title: 'Product list', path: CROSS_SELL_ROUTES.products },
-  { title: 'Active related products', path: CROSS_SELL_ROUTES.relatedProducts },
+  {
+    title: 'Products',
+    key: 'cross-sell-products',
+    path: CROSS_SELL_ROUTES.products,
+  },
 ];
 
 // const ROOTS_LANDING = '/';
@@ -206,20 +208,20 @@ const CROSS_SELL_ITEMS = [
 //     path(ROOTS_SUBSCRIPTION, `/view/${id}`),
 // };
 
-const PATH_START = {
-  root: 'https://mantine-analytics-dashboard-docs.netlify.app/getting-started',
-};
+// const PATH_START = {
+//   root: 'https://mantine-analytics-dashboard-docs.netlify.app/getting-started',
+// };
 
-const PATH_DOCS = {
-  help: 'https://github.com/design-sparx/antd-multipurpose-dashboard/blob/main/README.md',
-  components: 'https://6546507b657a74164abf2db6-oniqlpqtfs.chromatic.com/',
-  productRoadmap:
-    'https://kelvink96.notion.site/1af2c000eb4f4b1688684cb2d88d5ee4?v=eb14f3050b7d4357821dbcb4bb61b636&p=752cacbf390f4d1cbc0e625550391d9b&pm=s',
-};
+// const PATH_DOCS = {
+//   help: 'https://github.com/design-sparx/antd-multipurpose-dashboard/blob/main/README.md',
+//   components: 'https://6546507b657a74164abf2db6-oniqlpqtfs.chromatic.com/',
+//   productRoadmap:
+//     'https://kelvink96.notion.site/1af2c000eb4f4b1688684cb2d88d5ee4?v=eb14f3050b7d4357821dbcb4bb61b636&p=752cacbf390f4d1cbc0e625550391d9b&pm=s',
+// };
 
-const PATH_CHANGELOG = {
-  root: '',
-};
+// const PATH_CHANGELOG = {
+//   root: '',
+// };
 
 // const PATH_GITHUB = {
 //   org: 'https://github.com/design-sparx',

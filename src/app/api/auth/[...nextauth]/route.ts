@@ -1,10 +1,9 @@
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { jwtDecode } from 'jwt-decode';
-import { getAuthCredentials } from '@/services/auth.services';
-import { JwtCompletePayload } from '@/types/auth.types';
+import { getAuthCredentials } from '@/features/auth/services/auth.services';
+import { JwtCompletePayload } from '@/features/auth/types/auth.types';
 import { AUTH_ROUTES } from '@/constants/route.constants';
-import { isTokenExpired } from '@/utils/auth.utils';
 
 export const authOptions: NextAuthOptions = {
   pages: {
