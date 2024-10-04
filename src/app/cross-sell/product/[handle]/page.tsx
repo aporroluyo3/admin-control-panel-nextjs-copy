@@ -1,6 +1,6 @@
 'use client';
 import { AxiosError } from 'axios';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useMutation } from '@tanstack/react-query';
 import {
@@ -64,7 +64,7 @@ export default function ProductDetailsPage({ params }: SingleProductPageProps) {
       notificationApi.error({
         key: 'get-product-error',
         message: 'Error',
-        description: 'Error obteniendo los datos del servidor',
+        description: 'Error getting data from server',
       });
       console.error(error);
     },
@@ -79,7 +79,7 @@ export default function ProductDetailsPage({ params }: SingleProductPageProps) {
       notificationApi.open({
         key: 'get-product-with-relateds-error',
         message: 'Error',
-        description: 'Error obteniendo los datos del servidor',
+        description: 'Error getting data from server',
       });
       console.error(error);
     },
@@ -106,12 +106,11 @@ export default function ProductDetailsPage({ params }: SingleProductPageProps) {
         breadcrumbs={[
           {
             title: (
-              <>
+              <Link href={Route.HOME} style={{ display: 'flex', gap: '4px' }}>
                 <HomeOutlined />
-                <span>home</span>
-              </>
+                <span>Home</span>
+              </Link>
             ),
-            path: Route.HOME,
           },
           {
             title: (
@@ -133,6 +132,8 @@ export default function ProductDetailsPage({ params }: SingleProductPageProps) {
         ]}
       />
       <>
+        {notificationContextHolder}
+
         {productDetailsMutation.isError ||
         productWithRelatedMutation.isError ? (
           <RetryContainer

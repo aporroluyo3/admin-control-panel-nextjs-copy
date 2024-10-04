@@ -1,0 +1,7 @@
+#retry-button {
+  background-color: #facc15;
+
+  &:hover {
+    background-color: #e7be1a;
+  }
+}

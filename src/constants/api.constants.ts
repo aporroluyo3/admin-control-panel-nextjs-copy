@@ -15,7 +15,7 @@ const USER_SERVICES = {
 };
 
 const PRODUCT_SERVICES = {
-  all: path(ApiModule.PRODUCT, ''),
+  all: path(ApiModule.PRODUCT, '/allbd'),
   sync: path(ApiModule.PRODUCT, '/list'),
   getBySku: path(ApiModule.PRODUCT, '/prodsku'),
   getById: path(ApiModule.PRODUCT, '/prodid'),

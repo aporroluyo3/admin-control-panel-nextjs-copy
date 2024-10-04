@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button,
   Card,
@@ -80,19 +80,22 @@ export default function RelatedProducts({
   const [notParent, notRelatedProducts, setNotRelatedProducts] = useDragAndDrop<
     HTMLUListElement,
     Product
-  >([...initialNotRelatedProducts], {
-    group: 'A',
-    plugins: [
-      multiDrag({
-        plugins: [
-          selections({
-            selectedClass: 'multidrag',
-          }),
-        ],
-      }),
-      animations(),
-    ],
-  });
+  >(
+    [...initialNotRelatedProducts.sort(() => 0.5 - Math.random()).slice(0, 20)],
+    {
+      group: 'A',
+      plugins: [
+        multiDrag({
+          plugins: [
+            selections({
+              selectedClass: 'multidrag',
+            }),
+          ],
+        }),
+        animations(),
+      ],
+    },
+  );
 
   const addRelationMutation = useMutation({
     mutationFn: addProductRelation,
@@ -117,7 +120,7 @@ export default function RelatedProducts({
     otherProductsText: {
       fontWeight: '500',
       color: 'gray',
-      marginTop: '30px',
+      marginTop: '50px',
       marginBottom: '10px',
     },
     list: {
@@ -125,7 +128,7 @@ export default function RelatedProducts({
       width: '100%',
       minHeight: screens.md ? '240px' : '100px',
       gap: ' 10px',
-      gridTemplateColumns: `repeat(${screens.xxl ? 5 : screens.lg ? 4 : screens.md ? 3 : 1}, minmax(0, 1fr))`,
+      gridTemplateColumns: `repeat(${screens.lg ? 5 : screens.md ? 3 : 1}, minmax(0, 1fr))`,
       borderRadius: '8px',
     },
   };
@@ -183,7 +186,9 @@ export default function RelatedProducts({
     if (!initialNotRelatedProducts) return;
 
     if (!searchTerm || searchTerm === '') {
-      setNotRelatedProducts(initialNotRelatedProducts);
+      setNotRelatedProducts(
+        initialNotRelatedProducts.sort(() => 0.5 - Math.random()).slice(0, 20),
+      );
       return;
     }
 

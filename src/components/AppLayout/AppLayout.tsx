@@ -13,7 +13,7 @@ import {
   Switch,
   Typography,
 } from 'antd';
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import React, { ReactNode, useEffect, useRef, useState } from 'react';
 import {
   AppstoreOutlined,
   LogoutOutlined,

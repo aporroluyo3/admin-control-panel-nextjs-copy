@@ -1,5 +1,7 @@
 import { Button, Flex, theme, Typography } from 'antd';
 import { ReloadOutlined } from '@ant-design/icons';
+import { Styles } from '@/types/styles.types';
+import './styles.css';
 
 const { Text } = Typography;
 
@@ -18,24 +20,26 @@ export default function RetryContainer({
     token: { fontSizeHeading1 },
   } = theme.useToken();
 
+  const styles: Styles = {
+    container: { width: '100%', display: 'flex', justifyContent: 'center' },
+    box: {
+      fontSize: fontSizeHeading1,
+      maxWidth: '300px',
+      textAlign: 'center',
+    },
+    buttonBox: { display: 'grid', placeItems: 'center' },
+  };
+
   return (
-    <Flex style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-      <Flex
-        gap='middle'
-        vertical
-        style={{
-          fontSize: fontSizeHeading1,
-          maxWidth: '300px',
-          textAlign: 'center',
-        }}
-      >
+    <Flex style={styles.container}>
+      <Flex gap='middle' vertical style={styles.box}>
         <Text>
           The data could not be loaded correctly. An internal error occurred
         </Text>
-        <div style={{ display: 'grid', placeItems: 'center' }}>
+        <div style={styles.buttonBox}>
           <Button
             type='primary'
-            color='yellow'
+            id='retry-button'
             icon={<ReloadOutlined />}
             onClick={onRetry}
             loading={isLoading}

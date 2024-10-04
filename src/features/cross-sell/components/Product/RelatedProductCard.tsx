@@ -24,7 +24,9 @@ export default function RelatedProductCard({
             src={image_url}
             alt={`${title} image`}
             draggable={false}
+            style={{ overflow: 'hidden' }}
             width={screens.md ? '100%' : '70px'}
+            height={screens.md ? 'auto' : '70px'}
           />
         </picture>
         <div

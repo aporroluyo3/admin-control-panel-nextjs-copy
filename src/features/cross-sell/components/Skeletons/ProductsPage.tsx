@@ -1,12 +1,11 @@
-import { Divider, Flex, Grid, Skeleton } from 'antd';
-
-const { useBreakpoint } = Grid;
+import { Divider, Flex, Skeleton } from 'antd';
 
 export default function ProductsPage() {
-  const screens = useBreakpoint();
-
   return (
-    <Flex gap='middle' vertical style={{ padding: '30px 20px' }}>
+    <Flex gap='middle' vertical style={{ padding: '10px 20px' }}>
+      <Flex justify='end'>
+        <Skeleton.Button active style={{ height: '30px', width: '130px' }} />
+      </Flex>
       <Skeleton.Button active style={{ height: '15px', width: '100px' }} />
       <Divider style={{ margin: '0px', marginBottom: '10px' }} />
 

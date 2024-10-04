@@ -23,6 +23,9 @@ export default async function RootLayout({
 
   return (
     <html lang='en'>
+      <head>
+        <meta name='robots' content='noindex, nofollow' />
+      </head>
       <body>
         <SessionProvider session={session}>
           <QueryProvider>

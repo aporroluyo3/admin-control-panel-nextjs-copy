@@ -15,6 +15,7 @@ import { getAllProducts } from '@/features/cross-sell/services/product.services'
 interface DataContextType {
   products: ProductWithRelated[] | null;
   setProducts: (products: ProductWithRelated[]) => void;
+  update: () => void;
   isLoading: boolean;
   error: AxiosError | null;
 }
@@ -49,8 +50,12 @@ export const ProductContextProvider = ({
     allProductsMutation.mutate();
   }, []);
 
+  const update = () => allProductsMutation.mutate();
+
   return (
-    <DataContext.Provider value={{ products, setProducts, isLoading, error }}>
+    <DataContext.Provider
+      value={{ products, setProducts, update, isLoading, error }}
+    >
       {children}
     </DataContext.Provider>
   );

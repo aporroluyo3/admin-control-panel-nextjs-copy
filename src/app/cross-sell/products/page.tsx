@@ -1,11 +1,13 @@
 'use client';
-import { ReactNode, useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import React, { ReactNode, useEffect, useState } from 'react';
+import { AxiosError } from 'axios';
 import {
+  Button,
   Card,
   Image,
   Input,
   message,
+  notification,
   Space,
   Table,
   TableProps,
@@ -13,6 +15,7 @@ import {
   TagProps,
   Typography,
 } from 'antd';
+import { useMutation } from '@tanstack/react-query';
 import Link from 'next/link';
 import {
   CROSS_SELL_ITEMS,
@@ -27,6 +30,7 @@ import {
 import { useProductContext } from '@/features/cross-sell/context/product.context';
 import {
   CheckCircleOutlined,
+  CloseCircleOutlined,
   ExclamationCircleOutlined,
   HomeOutlined,
   ShoppingCartOutlined,
@@ -34,6 +38,9 @@ import {
 import { AppLayout } from '@/components/AppLayout';
 import { PageHeader } from '@/components/PageHeader';
 import { ProductsPageSkeleton } from '@/features/cross-sell/components/Skeletons';
+import { RetryContainer } from '@/components/RetryContainer';
+import { syncShopifyProducts } from '@/features/cross-sell/services/product.services';
+import { useRouter } from 'next/navigation';
 
 const { Search } = Input;
 const { Text } = Typography;
@@ -109,6 +116,7 @@ const PRODUCTS_TABLE_COLUMNS: TableProps<ProductWithRelated>['columns'] = [
         </a>
       </Space>
     ),
+    fixed: 'right',
   },
 ];
 
@@ -118,7 +126,6 @@ const RELATED_PRODUCTS_TABLE_COLUMNS: TableProps<ProductWithRelated>['columns'] 
       title: 'SKU',
       dataIndex: 'sku',
       key: 'sku',
-      ellipsis: true,
     },
     {
       title: 'Image',
@@ -195,6 +202,7 @@ const RELATED_PRODUCTS_TABLE_COLUMNS: TableProps<ProductWithRelated>['columns'] 
           </a>
         </Space>
       ),
+      fixed: 'right',
     },
   ];
 
@@ -204,6 +212,14 @@ const RELATED_PRODUCTS_CHILD_TABLE_COLUMNS: TableProps<RelatedProduct>['columns'
       title: 'Priority',
       dataIndex: 'num_priori',
       key: 'num_priori',
+      render: (_: number) => {
+        if (!_) {
+          return (
+            <CloseCircleOutlined style={{ color: 'red', fontSize: '18px' }} />
+          );
+        }
+        return <Text>{_}</Text>;
+      },
     },
     {
       title: 'SKU',
@@ -265,7 +281,11 @@ const ExpandedRowRender = ({ data }: { data: RelatedProduct[] }) => {
 };
 
 export default function ProductListPage() {
-  const { products, isLoading, error } = useProductContext();
+  const { products, update, isLoading, error } = useProductContext();
+  const [notificationApi, notificationContextHolder] =
+    notification.useNotification();
+  const [messageApi, messageContextHolder] = message.useMessage();
+  const router = useRouter();
 
   const [filteredProducts, setFilteredProducts] = useState<
     ProductWithRelated[] | null
@@ -274,28 +294,32 @@ export default function ProductListPage() {
     ProductWithRelated[] | null
   >(null);
 
-  const router = useRouter();
-
-  if (error) {
-    console.error(error);
-
-    message.open({
-      type: 'error',
-      content: 'Internal error. Failed to load data from server.',
-    });
-
-    message.open({
-      type: 'loading',
-      content: 'Redirecting to home page...',
-    });
-
-    setTimeout(() => {
-      router.push(Route.HOME);
-      message.destroy();
-    }, 2000);
-  }
+  const syncProductsMutation = useMutation({
+    mutationFn: syncShopifyProducts,
+    onSuccess: () => {
+      notificationApi.success({
+        key: 'sync-shopify-products-success',
+        message: 'Error',
+        description: 'The data was updated successfully.',
+      });
+      update();
+    },
+    onError: (error: AxiosError) => {
+      notificationApi.error({
+        key: 'sync-shopify-products-error',
+        message: 'Error',
+        description: 'Error getting data from server.',
+      });
+      console.error(error);
+    },
+    onSettled: () => {
+      messageApi.destroy('sync-shopify-products-loading');
+    },
+  });
 
   useEffect(() => {
+    if (!products) return;
+
     setFilteredProducts(products);
     setProductsWithRelateds(
       products?.filter((p) => p.relatedProducts.length > 0) ?? [],
@@ -321,6 +345,15 @@ export default function ProductListPage() {
     setFilteredProducts(filteredProducts);
   };
 
+  const handleSyncClick = (): void => {
+    messageApi.loading({
+      key: 'sync-shopify-products-loading',
+      content: 'Synchronizing information...',
+      duration: 0,
+    });
+    syncProductsMutation.mutate();
+  };
+
   return (
     <AppLayout>
       <PageHeader
@@ -328,12 +361,11 @@ export default function ProductListPage() {
         breadcrumbs={[
           {
             title: (
-              <>
+              <Link href={Route.HOME} style={{ display: 'flex', gap: '4px' }}>
                 <HomeOutlined />
                 <span>home</span>
-              </>
+              </Link>
             ),
-            path: Route.HOME,
           },
           {
             title: (
@@ -349,13 +381,20 @@ export default function ProductListPage() {
               })),
             },
           },
-          {
-            title: 'Products',
-          },
+          { title: 'Products' },
         ]}
       />
+      {notificationContextHolder}
+      {messageContextHolder}
 
-      {isLoading || !filteredProducts ? (
+      {error ? (
+        <RetryContainer
+          label='Reload'
+          onRetry={() => {
+            window.location.reload();
+          }}
+        />
+      ) : isLoading || !filteredProducts ? (
         <ProductsPageSkeleton />
       ) : (
         <div
@@ -367,6 +406,16 @@ export default function ProductListPage() {
             gap: '30px',
           }}
         >
+          <div style={{ alignSelf: 'end' }}>
+            <Button
+              onClick={handleSyncClick}
+              loading={syncProductsMutation.isPending}
+              color='primary'
+              variant='outlined'
+            >
+              Sync shopify products
+            </Button>
+          </div>
           <Card title='Product list'>
             <Search
               size='middle'

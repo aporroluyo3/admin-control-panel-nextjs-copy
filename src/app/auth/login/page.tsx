@@ -38,12 +38,12 @@ export default function Login() {
       setLoading(false);
 
       if (response.error === 'Unauthorized') {
-        openErrorNotification('Error', 'Credenciales incorrectas.');
+        openErrorNotification('Error', 'Incorrect credentials.');
         return;
       }
 
       console.error(response);
-      openErrorNotification('Oops!', 'Ocurrió un error interno.');
+      openErrorNotification('Oops!', 'An internal error occurred.');
       return;
     }
 
@@ -67,9 +67,7 @@ export default function Login() {
   const styles: Styles = {
     container: {
       margin: '0 auto',
-      padding: screens.md
-        ? `${token.paddingXL}px`
-        : `${token.sizeXXL}px ${token.padding}px`,
+      padding: screens.md ? `${token.paddingXL}px` : `150px ${token.padding}px`,
       width: '380px',
     },
     header: {
@@ -77,11 +75,10 @@ export default function Login() {
       textAlign: 'center',
     },
     section: {
-      alignItems: 'center',
+      alignItems: screens.sm ? 'center' : 'start',
       backgroundColor: '#fafafa',
       display: 'flex',
-      height: screens.sm ? '100vh' : 'auto',
-      padding: screens.md ? `${token.sizeXXL}px 0px` : '0px',
+      height: '100vh',
     },
     text: {
       color: token.colorTextSecondary,
