@@ -1,26 +1,62 @@
 {
-  "name": "cross-sell-manager-frontend-nextjs",
+  "name": "admin-control-panel-frontend-nextjs",
   "version": "0.1.0",
+  "description": "W.H.O Administrative control panel | Frontend",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Welding-Helmets-Online/admin-control-panel-frontend-nextjs"
+  },
+  "keywords": [
+    "nextjs",
+    "typescript",
+    "react"
+  ],
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "format": "prettier --check --ignore-path .gitignore .",
+    "format:fix": "prettier --write --ignore-path .gitignore .",
     "lint": "next lint"
   },
+  "author": "Alexander Porro <alex@weldinghelmetsonline.com.au>",
+  "contributors": [
+    {
+      "name": "Alexander Porro",
+      "email": "alex1020pl@gmail.com",
+      "url": "https://github.com/porrodv"
+    }
+  ],
   "dependencies": {
+    "@ant-design/icons": "^5.4.0",
+    "@ant-design/nextjs-registry": "^1.0.1",
+    "@formkit/drag-and-drop": "^0.1.6",
+    "@tanstack/react-query": "^5.55.4",
+    "antd": "^5.20.5",
+    "axios": "^1.7.7",
+    "jwt-decode": "^4.0.0",
+    "next": "14.2.8",
+    "next-auth": "^4.24.7",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.2.8"
+    "react-responsive": "^10.0.0",
+    "react-transition-group": "^4.4.5"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@tanstack/eslint-plugin-query": "^5.53.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "postcss": "^8",
-    "tailwindcss": "^3.4.1",
+    "@types/react-transition-group": "^4.4.11",
     "eslint": "^8",
-    "eslint-config-next": "14.2.8"
+    "eslint-config-next": "14.2.8",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-jsx-a11y": "^6.10.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-react": "^7.35.2",
+    "prettier": "^3.3.3",
+    "typescript": "^5"
   }
 }

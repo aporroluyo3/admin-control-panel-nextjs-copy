@@ -1,3 +1,39 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript"]
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": [
+    "next/core-web-vitals",
+    "next/typescript",
+    "prettier",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:@next/next/recommended",
+    "plugin:prettier/recommended",
+    "plugin:@tanstack/eslint-plugin-query/recommended"
+  ],
+  "plugins": ["prettier", "@tanstack/query"],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "rules": {
+    "prettier/prettier": ["error", { "endOfLine": "auto" }],
+    "react/react-in-jsx-scope": "off",
+    "jsx-a11y/label-has-associated-control": "off",
+    "react-hooks/exhaustive-deps": "off",
+    "no-unused-vars": "warn",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/naming-convention": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@tanstack/query/exhaustive-deps": "error"
+  }
 }
