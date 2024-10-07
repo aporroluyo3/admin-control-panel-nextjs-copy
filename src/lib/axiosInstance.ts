@@ -1,8 +1,8 @@
+import axios, { AxiosRequestConfig } from 'axios';
+import { getSession } from 'next-auth/react';
 import { ApiName, requestHeaders } from '@/constants/api.constants';
 import { CompleteSession } from '@/features/auth/types/auth.types';
 import { getApiUrl } from '@/utils/api.utils';
-import axios, { AxiosRequestConfig } from 'axios';
-import { getSession } from 'next-auth/react';
 
 const axiosInstance = axios.create({
   baseURL: getApiUrl(ApiName.CROSS_SELL),
@@ -15,9 +15,13 @@ const addAuthHeader = async (request: AxiosRequestConfig): Promise<any> => {
 
   const authHeader = {
     Authorization: `Bearer ${session?.user?.token}`,
+    'x-api-key': process.env.NEXT_PUBLIC_CROSS_SELL_API_APIKEY,
   };
 
-  request.headers = authHeader;
+  request.headers = {
+    ...request.headers,
+    ...authHeader,
+  };
 
   return request;
 };
